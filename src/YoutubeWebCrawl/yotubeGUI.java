@@ -1,6 +1,6 @@
 package YoutubeWebCrawl;
 
-import java.awt.BorderLayout;
+//import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,6 +12,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -34,26 +35,18 @@ public class yotubeGUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField tf1;
 	private JPasswordField pef;
-	private JButton btn1;
+	private JButton btn1,btn2;
 	WebElement we1,we2;
 	String username, passward;
 	private static WebDriver driver = null;
 	private int count=0;
+
+
 //main code
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					yotubeGUI frame = new yotubeGUI();
-					frame.setVisible(true);
-					frame.addWindowListener(new java.awt.event.WindowAdapter() {
-						public void windowClosing(WindowEvent e) {
-							driver.quit();
-						}
-					});
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				try {framestart();} catch (Exception e) {e.printStackTrace();}
 			}
 		});
 	}
@@ -109,19 +102,40 @@ public class yotubeGUI extends JFrame {
 		btn1.setBounds(10, 178, 87, 23);
 		contentPane.add(btn1);
 		
-		JButton btn2 = new JButton("\u6E05\u9664");
+		btn2 = new JButton("\u6E05\u9664");
 		btn2.setBounds(125, 178, 87, 23);
 		contentPane.add(btn2);
 		
 		
 		btn1.addActionListener((ActionListener)new btn1Listener() );
 		btn2.addActionListener((ActionListener)new btn2Listener());
+		keypress();
 		
-		pef.addKeyListener(new KeyAdapter()
+	
+		
+	}
 
-      	{
+//Handle JFrame events	
+	protected static void framestart() {
+		yotubeGUI frame = new yotubeGUI();
+		frame.setVisible(true);
+		
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				driver.quit();
+			}
+		});
+		
+	}
 
-      		public void keyPressed(KeyEvent key)
+//catch Keyboard chars 	
+   private void keypress() {
+	  
+	   pef.addKeyListener(new KeyAdapter()
+
+     	{
+
+     		public void keyPressed(KeyEvent key)
 
 	      	{
 
@@ -131,16 +145,36 @@ public class yotubeGUI extends JFrame {
 
 	      	}
 
-	});
+     	});
 
-      	
+     	
+		btn1.addKeyListener(new KeyAdapter() {
+			
+			public void keyPressed(KeyEvent key) {
+				
+				if(key.getKeyChar() == KeyEvent.VK_ENTER)
 
-	
+	      			btn1.doClick();
+			}
+			
+			});
 		
-	}
+		btn2.addKeyListener(new KeyAdapter() {
+			
+			public void keyPressed(KeyEvent key) {
+				
+				if(key.getKeyChar() == KeyEvent.VK_ENTER)
+
+	      			btn2.doClick();
+			}
+			
+			});
+	
+   }
 //The Thread run for printing the count-View and entering the login page. 	
 	class Mythread1 extends Thread{
 		public void run() {
+			
 			driver = new ChromeDriver();   
 		    driver.get("https://www.youtube.com/watch?v=QSR6hilYP4Y&t=17s");
 		    
@@ -178,7 +212,7 @@ public class yotubeGUI extends JFrame {
         
  }
 	
-	
+//Handle "btn1" events	
 	class btn1Listener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -257,7 +291,7 @@ public class yotubeGUI extends JFrame {
 
 	}
 	
-
+//Handle "btn2" events
 	class btn2Listener implements ActionListener{
 
 		@Override
