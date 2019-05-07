@@ -135,8 +135,10 @@ public class VerseCrawlGUI extends JFrame {
 	        String verse=null;
 		    for(Element id:ids) {
 	    	       verse=id.parent().parent().text();
-	    		   System.out.println(verse);
-	    		   lb1.setText(verse);
+	    		   
+	    		   String versef=verse.replaceAll("\\d+", "");
+	    		   lb1.setText(Box.getSelectedItem().toString()+c+":"+v+":"+versef.substring(1));
+	    		   System.out.println(versef);
 		    }
 		    
 		    driver.quit();
